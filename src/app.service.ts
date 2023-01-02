@@ -9,7 +9,7 @@ import { BaseCustomerDto } from './dto/core/base-customer.dto';
 import { TokenDto } from './dto/core/token.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
-import { AuthConfig } from './jwt/auth.config';
+import { AuthConfig } from './auth/auth.config';
 
 @Injectable()
 export class AppService {

@@ -5,7 +5,6 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Post,
-  Request,
   UnauthorizedException,
   UnprocessableEntityException,
   UseGuards,
@@ -26,6 +25,7 @@ import { BaseCustomerDto } from './dto/core/base-customer.dto';
 import { TokenDto } from './dto/core/token.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
+import { UserRequestDto } from './dto/request/user.request.dto';
 
 import { BadRequestResponseDto } from './dto/response/bad-request.response.dto';
 import { InternalServerErrorDto } from './dto/response/internal-server-error.response.dto';
@@ -33,7 +33,8 @@ import { LoginResponseDto } from './dto/response/login.response.dto';
 import { RegisterResponseDto } from './dto/response/register.response.dto';
 import { UnauthorizeResponseDto } from './dto/response/unauthorize.response.dto';
 import { UnprocessableEntityResponseDto } from './dto/response/unprocessable-entity.response.dto';
-import JwtAuthenticationGuard from './jwt/jwt.guard';
+import { GetUser } from './decorator/get-user.decorator';
+import JwtGuard from './auth/jwt.guard';
 
 @ApiTags('Authenticator')
 @Controller({ version: '1' })
@@ -57,7 +58,6 @@ export class AppController {
         account,
       );
     } catch (error) {
-      console.log(error);
       switch (error.code) {
         case 'InvalidPasswordException':
           throw new UnprocessableEntityException(
@@ -91,11 +91,11 @@ export class AppController {
   }
 
   @ApiBearerAuth()
-  @Get('check')
-  @UseGuards(JwtAuthenticationGuard)
-  async check(@Request() req: any) {
+  @UseGuards(JwtGuard)
+  @Get('get-me')
+  getMe(@GetUser() user: UserRequestDto) {
     try {
-      return req.user;
+      return user;
     } catch (error) {
       throw new InternalServerErrorException('Unknown error');
     }

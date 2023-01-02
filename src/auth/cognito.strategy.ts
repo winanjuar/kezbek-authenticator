@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { passportJwtSecret } from 'jwks-rsa';
 import { AuthConfig } from './auth.config';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class CognitoStrategy extends PassportStrategy(Strategy) {
   constructor(private authConfig: AuthConfig) {
     super({
       secretOrKeyProvider: passportJwtSecret({
@@ -23,8 +23,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   public async validate(payload: any) {
+    const id = payload?.sub;
+
+    if (!id) {
+      throw new UnauthorizedException();
+    }
+
     return {
-      sub: payload.sub,
+      id: payload.sub,
     };
   }
 }

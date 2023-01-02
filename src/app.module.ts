@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthConfig } from './jwt/auth.config';
-import { JwtStrategy } from './jwt/jwt.strategy';
+import { AuthConfig } from './auth/auth.config';
+import { CognitoStrategy } from './auth/cognito.strategy';
 
 @Module({
   imports: [
@@ -12,6 +12,6 @@ import { JwtStrategy } from './jwt/jwt.strategy';
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AppController],
-  providers: [AuthConfig, JwtStrategy, AppService],
+  providers: [AppService, AuthConfig, CognitoStrategy],
 })
 export class AppModule {}
