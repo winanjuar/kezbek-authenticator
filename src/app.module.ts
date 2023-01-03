@@ -10,7 +10,6 @@ import { CognitoStrategy } from './auth/cognito.strategy';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
     PassportModule.registerAsync({
       useFactory: async () => ({
         defaultStrategy: 'jwt',
