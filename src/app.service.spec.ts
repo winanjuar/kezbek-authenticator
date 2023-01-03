@@ -63,12 +63,6 @@ describe.skip('AppService', () => {
           cb(null, mockCognitoUser);
         });
 
-      // const result = mockCognitoUserPool.signUp.mockImplementation(
-      //   (a, b, c, d, cb) => cb(null, mockCognitoUser),
-      // );
-      // const spySignUp = jest.spyOn(mockCognitoUserPool, 'signUp');
-
-      // console.log(spySignUp);
       // act
       const funRegister = appService.register(registerDto);
 
