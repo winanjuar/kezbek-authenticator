@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   AuthenticationDetails,
   CognitoUser,
@@ -10,16 +10,23 @@ import { TokenDto } from './dto/core/token.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
 import { AuthConfig } from './auth/auth.config';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
+  private readonly logger = new Logger(AppService.name);
   private userPool: CognitoUserPool;
 
-  constructor(private authConfig: AuthConfig) {
+  constructor(
+    @Inject('CustomerService') private readonly customerClient: ClientProxy,
+    private authConfig: AuthConfig,
+  ) {
     this.userPool = new CognitoUserPool({
       UserPoolId: this.authConfig.userPoolId,
       ClientId: this.authConfig.clientId,
     });
+
+    this.customerClient.connect();
   }
 
   async register(registerDto: RegisterRequestDto) {
@@ -47,6 +54,10 @@ export class AppService {
               email,
               phone,
             };
+            this.customerClient.emit('ep_register', customer);
+            this.logger.log(
+              `Data new customer ${customer.id} sent to ServiceCustomer`,
+            );
             resolve(customer);
           }
         },

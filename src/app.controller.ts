@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   InternalServerErrorException,
+  Logger,
   Post,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -25,7 +26,7 @@ import { BaseCustomerDto } from './dto/core/base-customer.dto';
 import { TokenDto } from './dto/core/token.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
-import { UserRequestDto } from './dto/request/user.request.dto';
+import { IdUserRequestDto } from './dto/request/id-user.request.dto';
 
 import { BadRequestResponseDto } from './dto/response/bad-request.response.dto';
 import { InternalServerErrorDto } from './dto/response/internal-server-error.response.dto';
@@ -39,6 +40,8 @@ import JwtGuard from './auth/jwt.guard';
 @ApiTags('Authenticator')
 @Controller({ version: '1' })
 export class AppController {
+  private readonly logger = new Logger(AppController.name);
+
   constructor(private readonly appService: AppService) {}
 
   @ApiBody({ type: RegisterRequestDto })
@@ -52,6 +55,10 @@ export class AppController {
       const account = (await this.appService.register(
         registerDto,
       )) as BaseCustomerDto;
+
+      this.logger.log(
+        `[POST, /register] Register new customer ${account.id} successfully`,
+      );
       return new RegisterResponseDto(
         HttpStatus.OK,
         'Register new account successfully',
@@ -60,14 +67,21 @@ export class AppController {
     } catch (error) {
       switch (error.code) {
         case 'InvalidPasswordException':
+          this.logger.log(
+            `[POST, /register] Password doesn't meet AWS validation`,
+          );
           throw new UnprocessableEntityException(
             `Password doesn't meet AWS validation`,
           );
         case 'UsernameExistsException':
+          this.logger.log(
+            `[POST, /register] Username ${registerDto.username} already exist`,
+          );
           throw new UnprocessableEntityException(
             `Username ${registerDto.username} already exist`,
           );
         default:
+          this.logger.log(`[POST, /register] Unknown error`);
           throw new InternalServerErrorException('Unknown error');
       }
     }
@@ -81,11 +95,16 @@ export class AppController {
   async login(@Body() loginRequest: LoginRequestDto) {
     try {
       const token = (await this.appService.login(loginRequest)) as TokenDto;
+      this.logger.log(
+        `[POST, /login] Login ${loginRequest.username} successfully`,
+      );
       return new LoginResponseDto(HttpStatus.OK, 'Login successfully', token);
     } catch (error) {
       if (error.code === 'NotAuthorizedException') {
+        this.logger.log(`[POST, /login] Sorry, username or password wrong`);
         throw new UnauthorizedException('Sorry, username or password wrong');
       }
+      this.logger.log(`[POST, /login] Unknown error`);
       throw new InternalServerErrorException('Unknown error');
     }
   }
@@ -93,11 +112,10 @@ export class AppController {
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
   @Get('get-me')
-  getMe(@GetUser() user: UserRequestDto) {
-    try {
-      return user;
-    } catch (error) {
-      throw new InternalServerErrorException('Unknown error');
-    }
+  getMe(@GetUser() user: IdUserRequestDto) {
+    this.logger.log(
+      `[GET, /get-me] Decode token for user ${user.id} successfully`,
+    );
+    return user;
   }
 }

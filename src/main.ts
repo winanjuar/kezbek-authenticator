@@ -1,4 +1,4 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import {
@@ -13,6 +13,11 @@ global['fetch'] = require('node-fetch');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  const serviceName = configService.get<string>('APP_NAME');
+  const logger = new Logger(serviceName);
+  const title = configService.get<string>('PROJECT_NAME') + ' - ' + serviceName;
+  logger.log(title);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -47,7 +52,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup('apidoc', app, document, configCustomSwagger);
 
-  const PORT = configService.get<number>('APP_PORT');
-  await app.listen(PORT);
+  const port = configService.get<number>('APP_PORT');
+  await app.listen(port);
+  logger.log(`${serviceName} is running on port ${port}`);
+  logger.log(
+    `${serviceName} ready to communicate with ServiceCustomer via RabbitMQ`,
+  );
 }
 bootstrap();
