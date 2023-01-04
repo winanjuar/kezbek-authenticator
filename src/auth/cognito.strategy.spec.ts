@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
-import * as faker from 'faker';
+import { faker } from '@faker-js/faker';
 import { CognitoStrategy } from './cognito.strategy';
 import { AuthConfig } from './auth.config';
 

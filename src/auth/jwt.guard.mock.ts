@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
-import * as faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 export class JwtGuardMock implements CanActivate {
   canActivate(context: ExecutionContext) {

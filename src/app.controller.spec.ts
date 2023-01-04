@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { pick } from 'lodash';
-import * as faker from 'faker';
+import { faker } from '@faker-js/faker';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';

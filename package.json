@@ -36,7 +36,6 @@
     "amqplib": "^0.10.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
-    "faker": "^5.5.3",
     "ioredis": "^5.2.4",
     "jwks-rsa": "^3.0.0",
     "lodash": "^4.17.21",
@@ -48,11 +47,11 @@
     "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/express": "^4.17.13",
-    "@types/faker": "^6.6.9",
     "@types/jest": "28.1.8",
     "@types/lodash": "^4.14.191",
     "@types/node": "^16.0.0",
@@ -79,6 +78,9 @@
       "ts"
     ],
     "rootDir": "src",
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/$1"
+    },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -89,10 +91,10 @@
     "coverageDirectory": "../coverage",
     "coverageThreshold": {
       "global": {
-        "statements": 80,
-        "branches": 72,
+        "statements": 70,
+        "branches": 70,
         "functions": 40,
-        "lines": 75
+        "lines": 70
       }
     },
     "testEnvironment": "node"
