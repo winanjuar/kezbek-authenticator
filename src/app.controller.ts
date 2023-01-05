@@ -82,7 +82,7 @@ export class AppController {
           );
         default:
           this.logger.log(`[POST, /register] Unknown error`);
-          throw new InternalServerErrorException('Unknown error');
+          throw new InternalServerErrorException();
       }
     }
   }
@@ -105,7 +105,7 @@ export class AppController {
         throw new UnauthorizedException('Sorry, username or password wrong');
       }
       this.logger.log(`[POST, /login] Unknown error`);
-      throw new InternalServerErrorException('Unknown error');
+      throw new InternalServerErrorException();
     }
   }
 

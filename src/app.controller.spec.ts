@@ -175,7 +175,7 @@ describe('AppController', () => {
 
       // assert
       await expect(funRegister).rejects.toEqual(
-        new InternalServerErrorException(`Unknown error`),
+        new InternalServerErrorException(),
       );
       expect(spyRegister).toHaveBeenCalledTimes(1);
       expect(spyRegister).toHaveBeenCalledWith(registerDto);
@@ -247,7 +247,7 @@ describe('AppController', () => {
 
       // assert
       await expect(funLogin).rejects.toEqual(
-        new InternalServerErrorException(`Unknown error`),
+        new InternalServerErrorException(),
       );
       expect(spyLogin).toHaveBeenCalledTimes(1);
       expect(spyLogin).toHaveBeenCalledWith(loginDto);
