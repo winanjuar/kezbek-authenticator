@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseResponseDto } from './base.response.dto';
 
-export class InternalServerErrorDto extends BaseResponseDto {
+export class InternalServerErrorResponseDto extends BaseResponseDto {
   @ApiProperty({ example: 500 })
   statusCode: number;
 

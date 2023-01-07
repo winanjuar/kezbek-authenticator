@@ -29,7 +29,7 @@ import { RegisterRequestDto } from './dto/request/register.request.dto';
 import { IdUserRequestDto } from './dto/request/id-user.request.dto';
 
 import { BadRequestResponseDto } from './dto/response/bad-request.response.dto';
-import { InternalServerErrorDto } from './dto/response/internal-server-error.response.dto';
+import { InternalServerErrorResponseDto } from './dto/response/internal-server-error.response.dto';
 import { LoginResponseDto } from './dto/response/login.response.dto';
 import { RegisterResponseDto } from './dto/response/register.response.dto';
 import { UnauthorizeResponseDto } from './dto/response/unauthorize.response.dto';
@@ -48,7 +48,7 @@ export class AppController {
   @ApiCreatedResponse({ type: RegisterResponseDto })
   @ApiBadRequestResponse({ type: BadRequestResponseDto })
   @ApiUnprocessableEntityResponse({ type: UnprocessableEntityResponseDto })
-  @ApiInternalServerErrorResponse({ type: InternalServerErrorDto })
+  @ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
   @Post('register')
   async register(@Body() registerDto: RegisterRequestDto) {
     try {
@@ -90,7 +90,7 @@ export class AppController {
   @ApiBody({ type: LoginRequestDto })
   @ApiOkResponse({ type: LoginRequestDto })
   @ApiUnauthorizedResponse({ type: UnauthorizeResponseDto })
-  @ApiInternalServerErrorResponse({ type: InternalServerErrorDto })
+  @ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
   @Post('login')
   async login(@Body() loginRequest: LoginRequestDto) {
     try {
