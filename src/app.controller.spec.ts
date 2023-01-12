@@ -51,12 +51,12 @@ describe('AppController', () => {
     controller = app.get<AppController>(AppController);
 
     mockUser = {
-      id: '67746a2b-d693-47e1-99f5-f44572aee307',
-      name: 'Noura Hilma',
-      username: 'nourahilma',
-      email: 'noura@gmail.com',
-      phone: '+6285712312332',
-      password: 'Anfield$Road001',
+      id: faker.datatype.uuid(),
+      name: faker.name.fullName(),
+      username: faker.internet.userName(faker.name.firstName()),
+      email: faker.internet.email(),
+      phone: faker.phone.number(),
+      password: faker.datatype.string(),
     };
   });
 
@@ -110,7 +110,7 @@ describe('AppController', () => {
         'password',
       ]);
 
-      registerDto.password = 'AnfieldRoad112';
+      registerDto.password = faker.name.firstName();
 
       const spyRegister = jest
         .spyOn(mockAppService, 'register')
