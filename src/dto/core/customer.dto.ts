@@ -5,7 +5,6 @@ import {
   IsPhoneNumber,
   IsString,
   IsUUID,
-  Matches,
   MinLength,
 } from 'class-validator';
 
