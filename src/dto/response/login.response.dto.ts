@@ -11,7 +11,7 @@ export class LoginResponseDto extends BaseResponseDto {
   @ApiProperty({ example: 201 })
   statusCode: number;
 
-  @ApiProperty({ example: 'Login successfully' })
+  @ApiProperty({ example: 'This is sample message login successfully' })
   message: string;
 
   @ApiProperty({ type: TokenDto })

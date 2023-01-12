@@ -40,9 +40,5 @@ export class CustomerDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message:
-      'password must contains lowercase, uppercase, numberic and special character',
-  })
   password: string;
 }

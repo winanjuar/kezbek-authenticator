@@ -6,7 +6,7 @@ export class UnauthorizeResponseDto extends BaseResponseDto {
   statusCode: number;
 
   @ApiProperty({
-    example: `Sorry, username or password wrong`,
+    example: `This is sample message unauthorized`,
   })
   message: string;
 

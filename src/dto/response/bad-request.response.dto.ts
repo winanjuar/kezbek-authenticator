@@ -6,7 +6,7 @@ export class BadRequestResponseDto extends BaseResponseDto {
   statusCode: number;
 
   @ApiProperty({
-    example: ['email must be an email', 'phone must be a phone number'],
+    example: ['This is sample message validator error'],
   })
   message: string[];
 

@@ -11,7 +11,7 @@ export class RegisterResponseDto extends BaseResponseDto {
   @ApiProperty({ example: 201 })
   statusCode: number;
 
-  @ApiProperty({ example: 'Register new account successfully' })
+  @ApiProperty({ example: 'This is sample message register successfully' })
   message: string;
 
   @ApiProperty({ type: BaseCustomerDto })

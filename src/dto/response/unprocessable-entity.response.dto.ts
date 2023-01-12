@@ -6,7 +6,7 @@ export class UnprocessableEntityResponseDto extends BaseResponseDto {
   statusCode: number;
 
   @ApiProperty({
-    example: `Sorry, username is already exist`,
+    example: `This is sample message unprocessable entity`,
   })
   message: string;
 
