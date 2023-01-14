@@ -51,13 +51,14 @@ export class AppController {
   @ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
   @Post('register')
   async register(@Body() registerDto: RegisterRequestDto) {
+    const logIdentifier = 'POST register';
     try {
       const account = (await this.appService.register(
         registerDto,
       )) as BaseCustomerDto;
 
       this.logger.log(
-        `[POST, /register] Register new customer ${account.cognito_id} successfully`,
+        `[${logIdentifier}] [${account.cognito_id}] Register new customer successfully`,
       );
       return new RegisterResponseDto(
         HttpStatus.OK,
@@ -68,20 +69,20 @@ export class AppController {
       switch (error.code) {
         case 'InvalidPasswordException':
           this.logger.log(
-            `[POST, /register] Password doesn't meet AWS validation`,
+            `[${logIdentifier}] Password doesn't meet AWS validation`,
           );
           throw new UnprocessableEntityException(
             `Password doesn't meet AWS validation`,
           );
         case 'UsernameExistsException':
           this.logger.log(
-            `[POST, /register] Username ${registerDto.username} already exist`,
+            `[${logIdentifier}] Username ${registerDto.username} already exist`,
           );
           throw new UnprocessableEntityException(
             `Username ${registerDto.username} already exist`,
           );
         default:
-          this.logger.log(`[POST, /register] Unknown error`);
+          this.logger.log(`[${logIdentifier}] Unknown error`);
           throw new InternalServerErrorException();
       }
     }
@@ -93,18 +94,19 @@ export class AppController {
   @ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
   @Post('login')
   async login(@Body() loginRequest: LoginRequestDto) {
+    const logIdentifier = 'POST login';
     try {
       const token = (await this.appService.login(loginRequest)) as TokenDto;
       this.logger.log(
-        `[POST, /login] Login ${loginRequest.username} successfully`,
+        `[${logIdentifier}] [${loginRequest.username}] Login successfully`,
       );
       return new LoginResponseDto(HttpStatus.OK, 'Login successfully', token);
     } catch (error) {
       if (error.code === 'NotAuthorizedException') {
-        this.logger.log(`[POST, /login] Sorry, username or password wrong`);
+        this.logger.log(`[${logIdentifier}] Sorry, username or password wrong`);
         throw new UnauthorizedException('Sorry, username or password wrong');
       }
-      this.logger.log(`[POST, /login] Unknown error`);
+      this.logger.log(`[${logIdentifier}] Unknown error`);
       throw new InternalServerErrorException();
     }
   }
@@ -113,8 +115,9 @@ export class AppController {
   @UseGuards(JwtGuard)
   @Get('try-get-me')
   getMe(@GetUser() user: IdUserRequestDto) {
+    const logIdentifier = 'GET try-get-me';
     this.logger.log(
-      `[GET, /get-me] Decode token for user ${user.cognito_id} successfully`,
+      `[${logIdentifier}] [${user.cognito_id}] Decode token user successfully`,
     );
     return user;
   }
