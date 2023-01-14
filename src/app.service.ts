@@ -48,7 +48,7 @@ export class AppService {
             reject(err);
           } else {
             const customer: BaseCustomerDto = {
-              id: result.userSub,
+              cognito_id: result.userSub,
               name,
               username,
               email,
@@ -56,7 +56,7 @@ export class AppService {
             };
             this.customerClient.emit('ep_register', customer);
             this.logger.log(
-              `Data new customer ${customer.id} sent to ServiceCustomer`,
+              `Data new customer ${customer.cognito_id} sent to ServiceCustomer`,
             );
             resolve(customer);
           }

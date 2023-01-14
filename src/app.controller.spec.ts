@@ -51,7 +51,7 @@ describe('AppController', () => {
     controller = app.get<AppController>(AppController);
 
     mockUser = {
-      id: faker.datatype.uuid(),
+      cognito_id: faker.datatype.uuid(),
       name: faker.name.fullName(),
       username: faker.internet.userName(faker.name.firstName()),
       email: faker.internet.email(),
@@ -74,7 +74,7 @@ describe('AppController', () => {
       ]);
 
       const baseCustomer: BaseCustomerDto = pick(mockUser, [
-        'id',
+        'cognito_id',
         'name',
         'username',
         'email',
@@ -257,7 +257,7 @@ describe('AppController', () => {
   describe('get-me', () => {
     it('should return authenticated user id', async () => {
       // arrange
-      const user = { id: faker.datatype.uuid() };
+      const user = { cognito_id: faker.datatype.uuid() };
 
       // act
       const response = controller.getMe(user);

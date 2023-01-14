@@ -48,7 +48,7 @@ describe('CognitoStrategy', () => {
         jti: faker.datatype.uuid(),
         email: faker.internet.email(),
       };
-      const userMock = { id: payload.sub };
+      const userMock = { cognito_id: payload.sub };
 
       // act
       const response = await cognitoStrategy.validate(payload);

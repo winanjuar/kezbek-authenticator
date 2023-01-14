@@ -23,14 +23,14 @@ export class CognitoStrategy extends PassportStrategy(Strategy) {
   }
 
   public async validate(payload: any) {
-    const id = payload?.sub;
+    const cognito_id = payload?.sub;
 
-    if (!id) {
+    if (!cognito_id) {
       throw new UnauthorizedException();
     }
 
     return {
-      id: payload.sub,
+      cognito_id: payload.sub,
     };
   }
 }

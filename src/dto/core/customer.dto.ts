@@ -11,7 +11,7 @@ import {
 export class CustomerDto {
   @ApiProperty()
   @IsUUID(4)
-  id: string;
+  cognito_id: string;
 
   @ApiProperty()
   @IsNotEmpty()

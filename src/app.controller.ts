@@ -57,7 +57,7 @@ export class AppController {
       )) as BaseCustomerDto;
 
       this.logger.log(
-        `[POST, /register] Register new customer ${account.id} successfully`,
+        `[POST, /register] Register new customer ${account.cognito_id} successfully`,
       );
       return new RegisterResponseDto(
         HttpStatus.OK,
@@ -114,7 +114,7 @@ export class AppController {
   @Get('get-me')
   getMe(@GetUser() user: IdUserRequestDto) {
     this.logger.log(
-      `[GET, /get-me] Decode token for user ${user.id} successfully`,
+      `[GET, /get-me] Decode token for user ${user.cognito_id} successfully`,
     );
     return user;
   }
