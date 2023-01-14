@@ -5,12 +5,13 @@ import {
   CognitoUserAttribute,
   CognitoUserPool,
 } from 'amazon-cognito-identity-js';
-import { BaseCustomerDto } from './dto/core/base-customer.dto';
-import { TokenDto } from './dto/core/token.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
 import { AuthConfig } from './auth/auth.config';
 import { ClientProxy } from '@nestjs/microservices';
+import { TokenDto } from './dto/token.dto';
+import { EPatternMessage } from './core/pattern-message.enum';
+import { IBaseCustomer } from './core/base-customer.interface';
 
 @Injectable()
 export class AppService {
@@ -25,8 +26,6 @@ export class AppService {
       UserPoolId: this.authConfig.userPoolId,
       ClientId: this.authConfig.clientId,
     });
-
-    this.customerClient.connect();
   }
 
   async register(registerDto: RegisterRequestDto) {
@@ -47,16 +46,16 @@ export class AppService {
           if (!result) {
             reject(err);
           } else {
-            const customer: BaseCustomerDto = {
+            const customer: IBaseCustomer = {
               cognito_id: result.userSub,
               name,
               username,
               email,
               phone,
             };
-            this.customerClient.emit('ep_register', customer);
+            this.customerClient.emit(EPatternMessage.REGISTER, customer);
             this.logger.log(
-              `Data new customer ${customer.cognito_id} sent to ServiceCustomer`,
+              `[${EPatternMessage.REGISTER}] [${customer.cognito_id}] Sent data customer to ServiceCustomer`,
             );
             resolve(customer);
           }

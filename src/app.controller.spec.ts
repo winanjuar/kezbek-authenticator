@@ -11,9 +11,9 @@ import { faker } from '@faker-js/faker';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { BaseCustomerDto } from './dto/core/base-customer.dto';
-import { CustomerDto } from './dto/core/customer.dto';
-import { TokenDto } from './dto/core/token.dto';
+import { BaseCustomerDto } from './dto/base-customer.dto';
+import { CustomerDto } from './dto/customer.dto';
+import { TokenDto } from './dto/token.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
 import { LoginResponseDto } from './dto/response/login.response.dto';

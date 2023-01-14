@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TokenDto } from '../core/token.dto';
+import { TokenDto } from '../token.dto';
 import { BaseResponseDto } from './base.response.dto';
 
 export class LoginResponseDto extends BaseResponseDto {

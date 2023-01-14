@@ -22,8 +22,7 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { BaseCustomerDto } from './dto/core/base-customer.dto';
-import { TokenDto } from './dto/core/token.dto';
+import { BaseCustomerDto } from './dto/base-customer.dto';
 import { LoginRequestDto } from './dto/request/login.request.dto';
 import { RegisterRequestDto } from './dto/request/register.request.dto';
 import { IdUserRequestDto } from './dto/request/id-user.request.dto';
@@ -36,6 +35,7 @@ import { UnauthorizeResponseDto } from './dto/response/unauthorize.response.dto'
 import { UnprocessableEntityResponseDto } from './dto/response/unprocessable-entity.response.dto';
 import { GetUser } from './decorator/get-user.decorator';
 import JwtGuard from './auth/jwt.guard';
+import { TokenDto } from './dto/token.dto';
 
 @ApiTags('Authenticator')
 @Controller({ version: '1' })
@@ -111,7 +111,7 @@ export class AppController {
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
-  @Get('get-me')
+  @Get('try-get-me')
   getMe(@GetUser() user: IdUserRequestDto) {
     this.logger.log(
       `[GET, /get-me] Decode token for user ${user.cognito_id} successfully`,
