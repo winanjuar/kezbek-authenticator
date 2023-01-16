@@ -6,12 +6,14 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 
 global['fetch'] = require('node-fetch');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(helmet.hidePoweredBy());
   const configService = app.get(ConfigService);
   const serviceName = configService.get<string>('APP_NAME');
   const logger = new Logger(serviceName);
