@@ -16,7 +16,6 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
-  ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
@@ -89,7 +88,7 @@ export class AppController {
   }
 
   @ApiBody({ type: LoginRequestDto })
-  @ApiOkResponse({ type: LoginRequestDto })
+  @ApiCreatedResponse({ type: LoginResponseDto })
   @ApiUnauthorizedResponse({ type: UnauthorizeResponseDto })
   @ApiInternalServerErrorResponse({ type: InternalServerErrorResponseDto })
   @Post('login')
